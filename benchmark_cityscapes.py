@@ -24,8 +24,11 @@ import matplotlib.pyplot as plt
 MODEL_DEFAULTS = [
     "yolo26n-seg.pt",
     "yolo26n-seg.onnx",
-    "yolo26n-seg-fp32.engine",
-    "yolo26n-seg-fp16.engine",
+    "yolo26s-seg.pt",
+    "yolo26s-seg.onnx",
+    "yolo26m-seg.pt",
+    "yolo26m-seg.onnx"
+    
 ]
 
 COCO_CLASS_NAMES = {
