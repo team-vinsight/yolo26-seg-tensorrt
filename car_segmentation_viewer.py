@@ -1,17 +1,4 @@
-import os
-import time
-import warnings
-from pathlib import Path
-import tkinter as tk
-
-import cv2
-import numpy as np
-from PIL import Image, ImageTk
-warnings.filterwarnings("ignore", message="CUDA initialization.*", category=UserWarning)
-
-from ultralytics import YOLO
-
-
+import argparse
 import time
 from pathlib import Path
 import tkinter as tk
@@ -27,6 +14,27 @@ VIDEO_PATH = Path(__file__).with_name("car.mp4")
 MODEL_PATH = Path(__file__).with_name("yolo26n-seg.engine")
 DISPLAY_SCALE = 0.5
 DYNAMIC_CLASS_IDS = {0, 1, 2, 3, 5, 6, 7, 8}
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="TensorRT segmentation viewer")
+    parser.add_argument(
+        "--model",
+        default=str(MODEL_PATH),
+        help="Path to TensorRT engine model (.engine)",
+    )
+    parser.add_argument(
+        "--video",
+        default=str(VIDEO_PATH),
+        help="Path to input video",
+    )
+    parser.add_argument(
+        "--scale",
+        type=float,
+        default=DISPLAY_SCALE,
+        help="Display scale factor (e.g. 0.5)",
+    )
+    return parser.parse_args()
 
 
 def _sigmoid(values: np.ndarray) -> np.ndarray:
@@ -226,9 +234,10 @@ class TensorRTSegmentationModel:
 
 
 class SegmentationViewer:
-    def __init__(self, video_path: Path, model_path: Path) -> None:
+    def __init__(self, video_path: Path, model_path: Path, display_scale: float = DISPLAY_SCALE) -> None:
         self.video_path = video_path
         self.model = TensorRTSegmentationModel(model_path)
+        self.display_scale = display_scale
         self.cap = cv2.VideoCapture(str(video_path))
         self.total_frames = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
         self.video_fps = float(self.cap.get(cv2.CAP_PROP_FPS) or 0.0)
@@ -274,7 +283,7 @@ class SegmentationViewer:
             self.display_fps = (0.9 * self.display_fps) + (0.1 * instantaneous_fps)
 
         source_size = f"{frame.shape[1]}x{frame.shape[0]}"
-        display_size = f"{int(frame.shape[1] * DISPLAY_SCALE)}x{int(frame.shape[0] * DISPLAY_SCALE)}"
+        display_size = f"{int(frame.shape[1] * self.display_scale)}x{int(frame.shape[0] * self.display_scale)}"
         progress = f"{self.frame_index}/{self.total_frames}" if self.total_frames > 0 else str(self.frame_index)
         video_fps_text = f"{self.video_fps:.2f}" if self.video_fps > 0 else "unknown"
 
@@ -282,7 +291,7 @@ class SegmentationViewer:
             text=(
                 f"Playback FPS: {self.display_fps:.2f} | Source FPS: {video_fps_text} | Inference: {inference_ms:.1f} ms\n"
                 f"Dynamic objects: {dynamic_count} | Masked area: {masked_ratio:.2f}%\n"
-                f"Frame: {progress} | Source: {source_size} | Display: {display_size} (scale={DISPLAY_SCALE:.2f})"
+                f"Frame: {progress} | Source: {source_size} | Display: {display_size} (scale={self.display_scale:.2f})"
             )
         )
 
@@ -301,8 +310,8 @@ class SegmentationViewer:
         display_frame = cv2.resize(
             masked_frame,
             None,
-            fx=DISPLAY_SCALE,
-            fy=DISPLAY_SCALE,
+            fx=self.display_scale,
+            fy=self.display_scale,
             interpolation=cv2.INTER_AREA,
         )
         rgb_frame = cv2.cvtColor(display_frame, cv2.COLOR_BGR2RGB)
@@ -333,7 +342,10 @@ class SegmentationViewer:
 
 
 def main() -> None:
-    viewer = SegmentationViewer(VIDEO_PATH, MODEL_PATH)
+    args = parse_args()
+    model_path = Path(args.model).expanduser().resolve()
+    video_path = Path(args.video).expanduser().resolve()
+    viewer = SegmentationViewer(video_path, model_path, args.scale)
     viewer.run()
 
 
