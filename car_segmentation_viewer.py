@@ -159,8 +159,19 @@ class TensorRTSegmentationModel:
 
         inference_ms = (time.perf_counter() - inference_start) * 1000.0
 
-        detections = self.host_buffers[self.output_names[0]][0]
-        prototypes = self.host_buffers[self.output_names[1]][0]
+        first_output = self.host_buffers[self.output_names[0]][0]
+        second_output = self.host_buffers[self.output_names[1]][0]
+
+        # Guard against output reordering between engine variants.
+        if first_output.ndim == 2 and second_output.ndim == 3:
+            detections, prototypes = first_output, second_output
+        elif second_output.ndim == 2 and first_output.ndim == 3:
+            detections, prototypes = second_output, first_output
+        else:
+            raise RuntimeError(
+                f"Unexpected output tensor shapes: {first_output.shape}, {second_output.shape}"
+            )
+
         masked_frame, dynamic_count, masked_ratio = self._postprocess(
             frame,
             detections,
@@ -197,7 +208,8 @@ class TensorRTSegmentationModel:
             if confidence < 0.25 or class_id not in DYNAMIC_CLASS_IDS:
                 continue
 
-            x_center, y_center, box_width, box_height = map(float, detection[:4])
+            # TensorRT-exported YOLO end-to-end outputs boxes as xyxy.
+            x1_model, y1_model, x2_model, y2_model = map(float, detection[:4])
             coeffs = detection[6:]
 
             mask = _sigmoid(coeffs @ proto_flat).reshape(proto_height, proto_width)
@@ -211,10 +223,10 @@ class TensorRTSegmentationModel:
 
             mask = cv2.resize(mask, (original_width, original_height), interpolation=cv2.INTER_LINEAR)
 
-            x1 = int(round((x_center - box_width / 2 - pad_left) / scale))
-            y1 = int(round((y_center - box_height / 2 - pad_top) / scale))
-            x2 = int(round((x_center + box_width / 2 - pad_left) / scale))
-            y2 = int(round((y_center + box_height / 2 - pad_top) / scale))
+            x1 = int(round((x1_model - pad_left) / scale))
+            y1 = int(round((y1_model - pad_top) / scale))
+            x2 = int(round((x2_model - pad_left) / scale))
+            y2 = int(round((y2_model - pad_top) / scale))
             x1 = max(0, min(original_width, x1))
             y1 = max(0, min(original_height, y1))
             x2 = max(0, min(original_width, x2))
