@@ -4,3 +4,5 @@ yolo26m-seg.pt
 *.engine
 *.onnx
 datasets/
+__pycache__/
+*.log

@@ -1,0 +1,44 @@
+{
+  "dataset_root": "/home/intellisense05/akinduid/mi/datasets",
+  "split": "val",
+  "pairs_count": 1,
+  "max_images": 1,
+  "models": [
+    {
+      "model_name": "yolo26n-seg-fp32.engine",
+      "mean_inference_ms": 68.30917900003897,
+      "median_inference_ms": 68.30917900003897,
+      "p95_inference_ms": 68.30917900003897,
+      "throughput_fps": 14.639321020084717,
+      "mean_iou": 0.7918877090557629,
+      "precision_50": 0.04665314401622718,
+      "recall_50": 0.7083333333333333,
+      "f1_50": 0.08733233979135618,
+      "map_50": 0.7083333333333333,
+      "map_5095": 0.44791666666666663,
+      "evaluation_mode": "native-trt-class-aware",
+      "per_class_ap50": {
+        "person": 0.75,
+        "car": 0.6666666666666666
+      }
+    },
+    {
+      "model_name": "yolo26n-seg-fp16.engine",
+      "mean_inference_ms": 15.62266799999179,
+      "median_inference_ms": 15.62266799999179,
+      "p95_inference_ms": 15.62266799999179,
+      "throughput_fps": 64.00955329784422,
+      "mean_iou": 0.7929390166298811,
+      "precision_50": 0.046087533156498675,
+      "recall_50": 0.7083333333333333,
+      "f1_50": 0.08635831381733021,
+      "map_50": 0.7083333333333333,
+      "map_5095": 0.44791666666666663,
+      "evaluation_mode": "native-trt-class-aware",
+      "per_class_ap50": {
+        "person": 0.75,
+        "car": 0.6666666666666666
+      }
+    }
+  ]
+}

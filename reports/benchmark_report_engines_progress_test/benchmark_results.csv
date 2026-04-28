@@ -1,0 +1,3 @@
+model,mean_inference_ms,median_inference_ms,p95_inference_ms,throughput_fps,mean_iou,precision_50,recall_50,f1_50,map_50,map_5095,evaluation_mode
+yolo26n-seg-fp32.engine,68.3092,68.3092,68.3092,14.6393,0.7919,0.0467,0.7083,0.0873,0.7083,0.4479,native-trt-class-aware
+yolo26n-seg-fp16.engine,15.6227,15.6227,15.6227,64.0096,0.7929,0.0461,0.7083,0.0864,0.7083,0.4479,native-trt-class-aware

@@ -1,0 +1,7 @@
+model,mean_inference_ms,median_inference_ms,p95_inference_ms,throughput_fps,mean_iou,precision_50,recall_50,f1_50,map_50,map_5095,evaluation_mode,best_f1_50,best_conf_50
+yolo26n-seg-fp32.engine,20.4531,8.9959,67.0370,48.8923,0.5116,0.0353,0.3821,0.0641,0.2567,0.1309,native-trt-class-aware,0.3390,0.3079
+yolo26n-seg-fp16.engine,6.8621,6.6514,9.7622,145.7279,0.5116,0.0354,0.3821,0.0643,0.2569,0.1296,native-trt-class-aware,0.3405,0.3087
+yolo26s-seg-fp32.engine,11.7565,11.2153,13.0563,85.0592,0.5250,0.0472,0.4163,0.0837,0.3607,0.1794,native-trt-class-aware,0.4578,0.3867
+yolo26s-seg-fp16.engine,6.7492,6.5153,7.8120,148.1650,0.5250,0.0472,0.4163,0.0836,0.3607,0.1788,native-trt-class-aware,0.4578,0.3863
+yolo26m-seg-fp32.engine,22.4303,22.0648,23.5476,44.5826,0.5226,0.0629,0.4922,0.1093,0.3830,0.1970,native-trt-class-aware,0.4685,0.2658
+yolo26m-seg-fp16.engine,9.4547,9.0365,10.6282,105.7673,0.5206,0.0641,0.5031,0.1114,0.3841,0.1988,native-trt-class-aware,0.4684,0.2360

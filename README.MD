@@ -10,16 +10,11 @@ This workspace contains a complete pipeline to:
 
 ## Workspace Contents
 
-- `car.mp4`: Sample video input.
-- `webcam_viewer.py`: Basic OpenCV webcam viewer.
-- `car_segmentation_viewer.py`: Main TensorRT-backed Tkinter segmentation viewer.
-- `benchmark_models.py`: Benchmark script for PT, ONNX, and TensorRT paths.
-- `benchmark_cityscapes.py`: Dataset benchmark for PT/ONNX/engine models with markdown/CSV/JSON report output.
-- `benchmark_engines.py`: Native TensorRT dataset benchmark for `.engine` models with detailed progress logs and confusion matrix plotting.
-- `yolo26n-seg.pt`: Source PyTorch model.
-- `yolo26n-seg.onnx`: Exported ONNX model.
-- `yolo26n-seg.engine`: Exported TensorRT engine.
-- Additional model variants (`yolo26s/m/l/x-seg.pt`, `yolov8s-seg.pt`).
+- `scripts/`: Python entry points for viewers and benchmarks.
+- `models/`: PyTorch, ONNX, and TensorRT model files.
+- `media/`: Sample video input.
+- `reports/`: Generated benchmark outputs and plots.
+- `datasets/`: Cityscapes-style image and label data.
 
 ## Environment Setup
 
@@ -43,22 +38,22 @@ pip install tensorrt cuda-python
 Default run:
 
 ```bash
-/home/intellisense05/akinduid/mi/.venv/bin/python /home/intellisense05/akinduid/mi/car_segmentation_viewer.py
+/home/intellisense05/akinduid/mi/.venv/bin/python /home/intellisense05/akinduid/mi/scripts/car_segmentation_viewer.py
 ```
 
 Custom run with explicit arguments:
 
 ```bash
-/home/intellisense05/akinduid/mi/.venv/bin/python /home/intellisense05/akinduid/mi/car_segmentation_viewer.py \
-	--model /home/intellisense05/akinduid/mi/yolo26n-seg.engine \
-	--video /home/intellisense05/akinduid/mi/car.mp4 \
+/home/intellisense05/akinduid/mi/.venv/bin/python /home/intellisense05/akinduid/mi/scripts/car_segmentation_viewer.py \
+	--model /home/intellisense05/akinduid/mi/models/yolo26n-seg.engine \
+	--video /home/intellisense05/akinduid/mi/media/car.mp4 \
 	--scale 0.5
 ```
 
 Show CLI help:
 
 ```bash
-/home/intellisense05/akinduid/mi/.venv/bin/python /home/intellisense05/akinduid/mi/car_segmentation_viewer.py --help
+/home/intellisense05/akinduid/mi/.venv/bin/python /home/intellisense05/akinduid/mi/scripts/car_segmentation_viewer.py --help
 ```
 
 ## Convert PT -> ONNX
@@ -67,7 +62,7 @@ Show CLI help:
 cd /home/intellisense05/akinduid/mi
 /home/intellisense05/akinduid/mi/.venv/bin/python - <<'PY'
 from ultralytics import YOLO
-model = YOLO('yolo26n-seg.pt')
+model = YOLO('models/yolo26n-seg.pt')
 out = model.export(format='onnx')
 print(out)
 PY
@@ -77,7 +72,7 @@ PY
 
 ```bash
 cd /home/intellisense05/akinduid/mi
-trtexec --onnx=yolo26n-seg.onnx --saveEngine=yolo26n-seg.engine --fp16
+trtexec --onnx=models/yolo26n-seg.onnx --saveEngine=models/yolo26n-seg.engine --fp16
 ```
 
 ## Benchmark Models
@@ -86,14 +81,14 @@ Run Python benchmark script:
 
 ```bash
 cd /home/intellisense05/akinduid/mi
-/home/intellisense05/akinduid/mi/.venv/bin/python benchmark_models.py --warmup 10 --runs 40 --imgsz 640
+/home/intellisense05/akinduid/mi/.venv/bin/python scripts/benchmark_models.py --warmup 10 --runs 40 --imgsz 640
 ```
 
 Run TensorRT engine-only benchmark:
 
 ```bash
 cd /home/intellisense05/akinduid/mi
-trtexec --loadEngine=yolo26n-seg.engine --duration=3 --warmUp=200
+trtexec --loadEngine=models/yolo26n-seg.engine --duration=3 --warmUp=200
 ```
 
 ## Benchmark on Dataset (PT/ONNX/Engine)
@@ -104,19 +99,19 @@ Example run:
 
 ```bash
 cd /home/intellisense05/akinduid/mi
-/home/intellisense05/akinduid/mi/.venv/bin/python benchmark_cityscapes.py \
+/home/intellisense05/akinduid/mi/.venv/bin/python scripts/benchmark_cityscapes.py \
 	--dataset-root datasets \
 	--split val \
 	--max-images 50 \
-	--output-dir benchmark_report_cityscapes_50
+	--output-dir reports/benchmark_report_cityscapes_50
 ```
 
 Default model list in this script includes:
 
-- `yolo26n-seg.pt`
-- `yolo26n-seg.onnx`
-- `yolo26n-seg-fp32.engine`
-- `yolo26n-seg-fp16.engine`
+- `models/yolo26n-seg.pt`
+- `models/yolo26n-seg.onnx`
+- `models/yolo26n-seg-fp32.engine`
+- `models/yolo26n-seg-fp16.engine`
 
 ## Benchmark on Dataset (Engine-Only, Native TensorRT Decode)
 
@@ -126,11 +121,11 @@ Example run:
 
 ```bash
 cd /home/intellisense05/akinduid/mi
-/home/intellisense05/akinduid/mi/.venv/bin/python benchmark_engines.py \
+/home/intellisense05/akinduid/mi/.venv/bin/python scripts/benchmark_engines.py \
 	--dataset-root datasets \
 	--split val \
 	--max-images 50 \
-	--output-dir benchmark_report_engines_50
+	--output-dir reports/benchmark_report_engines_50
 ```
 
 You will see logs like:
@@ -171,16 +166,16 @@ cd /home/intellisense05/akinduid/mi
 source .venv/bin/activate
 
 # Run viewer
-python car_segmentation_viewer.py --model yolo26n-seg.engine --video car.mp4 --scale 0.5
+python scripts/car_segmentation_viewer.py --model models/yolo26n-seg.engine --video media/car.mp4 --scale 0.5
 
 # Optional benchmark
-python benchmark_models.py --warmup 10 --runs 40 --imgsz 640
+python scripts/benchmark_models.py --warmup 10 --runs 40 --imgsz 640
 
 # Dataset mixed-format benchmark (PT/ONNX)
-python benchmark_cityscapes.py --max-images 50 --output-dir benchmark_report_cityscapes_50
+python scripts/benchmark_cityscapes.py --max-images 50 --output-dir reports/benchmark_report_cityscapes_50
 
 # Dataset engine benchmark (native TensorRT decode)
-python benchmark_engines.py --max-images 50 --output-dir benchmark_report_engines_50
+python scripts/benchmark_engines.py --max-images 50 --output-dir reports/benchmark_report_engines_50
 ```
 
 ## Notes

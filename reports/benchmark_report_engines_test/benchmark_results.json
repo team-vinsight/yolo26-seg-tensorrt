@@ -1,0 +1,42 @@
+{
+  "dataset_root": "/home/intellisense05/akinduid/mi/datasets",
+  "split": "val",
+  "pairs_count": 1,
+  "max_images": 1,
+  "models": [
+    {
+      "model_name": "yolo26n-seg-fp32.engine",
+      "mean_inference_ms": 586.2089279999054,
+      "median_inference_ms": 586.2089279999054,
+      "p95_inference_ms": 586.2089279999054,
+      "throughput_fps": 1.7058764413771625,
+      "mean_iou": 0.0,
+      "precision_50": 0.0,
+      "recall_50": 0.0,
+      "f1_50": 0.0,
+      "map_50": 0.0,
+      "map_5095": 0.0,
+      "evaluation_mode": "class-agnostic",
+      "per_class_ap50": {
+        "all-objects": 0.0
+      }
+    },
+    {
+      "model_name": "yolo26n-seg-fp16.engine",
+      "mean_inference_ms": 59.118217999639455,
+      "median_inference_ms": 59.118217999639455,
+      "p95_inference_ms": 59.118217999639455,
+      "throughput_fps": 16.91525952297985,
+      "mean_iou": 0.0,
+      "precision_50": 0.0,
+      "recall_50": 0.0,
+      "f1_50": 0.0,
+      "map_50": 0.0,
+      "map_5095": 0.0,
+      "evaluation_mode": "class-agnostic",
+      "per_class_ap50": {
+        "all-objects": 0.0
+      }
+    }
+  ]
+}

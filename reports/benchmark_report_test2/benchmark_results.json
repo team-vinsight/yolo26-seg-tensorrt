@@ -1,0 +1,76 @@
+{
+  "dataset_root": "/home/intellisense05/akinduid/mi/datasets",
+  "split": "val",
+  "pairs_count": 1,
+  "max_images": 1,
+  "models": [
+    {
+      "model_name": "yolo26n-seg.pt",
+      "mean_inference_ms": 787.1446959998138,
+      "median_inference_ms": 787.1446959998138,
+      "p95_inference_ms": 787.1446959998138,
+      "throughput_fps": 1.2704144550320853,
+      "mean_iou": 0.6828664337842447,
+      "precision_50": 0.025380710659898477,
+      "recall_50": 0.7142857142857143,
+      "f1_50": 0.049019607843137254,
+      "map_50": 0.6507936507936508,
+      "map_5095": 0.2791549953314659,
+      "evaluation_mode": "class-agnostic",
+      "per_class_ap50": {
+        "all-objects": 0.6507936507936508
+      }
+    },
+    {
+      "model_name": "yolo26n-seg.onnx",
+      "mean_inference_ms": 317.77431499904196,
+      "median_inference_ms": 317.77431499904196,
+      "p95_inference_ms": 317.77431499904196,
+      "throughput_fps": 3.146887438032916,
+      "mean_iou": 0.683237967598999,
+      "precision_50": 0.02564102564102564,
+      "recall_50": 0.7142857142857143,
+      "f1_50": 0.04950495049504951,
+      "map_50": 0.6428571428571428,
+      "map_5095": 0.2783613445378151,
+      "evaluation_mode": "class-agnostic",
+      "per_class_ap50": {
+        "all-objects": 0.6428571428571428
+      }
+    },
+    {
+      "model_name": "yolo26n-seg-fp32.engine",
+      "mean_inference_ms": 176.7826180002885,
+      "median_inference_ms": 176.7826180002885,
+      "p95_inference_ms": 176.7826180002885,
+      "throughput_fps": 5.656664729325188,
+      "mean_iou": 0.0,
+      "precision_50": 0.0,
+      "recall_50": 0.0,
+      "f1_50": 0.0,
+      "map_50": 0.0,
+      "map_5095": 0.0,
+      "evaluation_mode": "class-agnostic",
+      "per_class_ap50": {
+        "all-objects": 0.0
+      }
+    },
+    {
+      "model_name": "yolo26n-seg-fp16.engine",
+      "mean_inference_ms": 54.93641499924706,
+      "median_inference_ms": 54.93641499924706,
+      "p95_inference_ms": 54.93641499924706,
+      "throughput_fps": 18.202862345744723,
+      "mean_iou": 0.0,
+      "precision_50": 0.0,
+      "recall_50": 0.0,
+      "f1_50": 0.0,
+      "map_50": 0.0,
+      "map_5095": 0.0,
+      "evaluation_mode": "class-agnostic",
+      "per_class_ap50": {
+        "all-objects": 0.0
+      }
+    }
+  ]
+}

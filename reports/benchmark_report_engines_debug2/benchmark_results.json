@@ -1,0 +1,92 @@
+{
+  "dataset_root": "/home/intellisense05/akinduid/mi/datasets",
+  "split": "val",
+  "pairs_count": 2,
+  "max_images": 2,
+  "models": [
+    {
+      "model_name": "yolo26n-seg-fp32.engine",
+      "mean_inference_ms": 39.037106500018126,
+      "median_inference_ms": 39.037106500018126,
+      "p95_inference_ms": 69.0785470001174,
+      "throughput_fps": 25.616652709635016,
+      "mean_iou": 0.722370719904282,
+      "precision_50": 0.06657681940700809,
+      "recall_50": 0.6333333333333333,
+      "f1_50": 0.11664166416641665,
+      "map_50": 0.4756529581529581,
+      "map_5095": 0.2651680147338042,
+      "evaluation_mode": "native-trt-class-aware",
+      "best_f1_50": 0.5889550264550264,
+      "best_conf_50": 0.14077364870657524,
+      "per_class_ap50": {
+        "person": 0.75,
+        "bicycle": 0.07142857142857142,
+        "car": 0.605530303030303
+      }
+    },
+    {
+      "model_name": "yolo26n-seg-fp16.engine",
+      "mean_inference_ms": 11.695143999986612,
+      "median_inference_ms": 11.695143999986612,
+      "p95_inference_ms": 16.77555600008418,
+      "throughput_fps": 85.5055739374517,
+      "mean_iou": 0.7230383545671571,
+      "precision_50": 0.06662019586581987,
+      "recall_50": 0.6333333333333333,
+      "f1_50": 0.11669131818385552,
+      "map_50": 0.4756529581529581,
+      "map_5095": 0.26605495430495435,
+      "evaluation_mode": "native-trt-class-aware",
+      "best_f1_50": 0.5889550264550264,
+      "best_conf_50": 0.1408710479736328,
+      "per_class_ap50": {
+        "person": 0.75,
+        "bicycle": 0.07142857142857142,
+        "car": 0.605530303030303
+      }
+    },
+    {
+      "model_name": "yolo26s-seg-fp32.engine",
+      "mean_inference_ms": 12.443828999721518,
+      "median_inference_ms": 12.443828999721518,
+      "p95_inference_ms": 13.72329899959368,
+      "throughput_fps": 80.36111714669006,
+      "mean_iou": 0.698460386977524,
+      "precision_50": 0.07106594743456057,
+      "recall_50": 0.6666666666666666,
+      "f1_50": 0.12538009127071284,
+      "map_50": 0.5709930705033798,
+      "map_5095": 0.2872818396593412,
+      "evaluation_mode": "native-trt-class-aware",
+      "best_f1_50": 0.7146464646464646,
+      "best_conf_50": 0.35045283536116284,
+      "per_class_ap50": {
+        "person": 0.5625,
+        "bicycle": 0.5,
+        "car": 0.6504792115101393
+      }
+    },
+    {
+      "model_name": "yolo26s-seg-fp16.engine",
+      "mean_inference_ms": 7.4386300000242045,
+      "median_inference_ms": 7.4386300000242045,
+      "p95_inference_ms": 7.596450000164623,
+      "throughput_fps": 134.43335667948884,
+      "mean_iou": 0.698445311296107,
+      "precision_50": 0.07106594743456057,
+      "recall_50": 0.6666666666666666,
+      "f1_50": 0.12538009127071284,
+      "map_50": 0.5709410034410034,
+      "map_5095": 0.2872766329531035,
+      "evaluation_mode": "native-trt-class-aware",
+      "best_f1_50": 0.7146464646464646,
+      "best_conf_50": 0.3503824869791667,
+      "per_class_ap50": {
+        "person": 0.5625,
+        "bicycle": 0.5,
+        "car": 0.6503230103230102
+      }
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+model,mean_inference_ms,median_inference_ms,p95_inference_ms,throughput_fps,mean_iou,precision_50,recall_50,f1_50,map_50,map_5095,evaluation_mode
+yolo26n-seg.pt,724.8543,724.8543,724.8543,1.3796,0.7073,0.0488,0.7083,0.0911,0.6583,0.3007,class-aware
+yolo26n-seg.onnx,360.0386,360.0386,360.0386,2.7775,0.7075,0.0467,0.7083,0.0873,0.6583,0.3007,class-aware
+yolo26n-seg-fp32.engine,182.1523,182.1523,182.1523,5.4899,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,class-agnostic
+yolo26n-seg-fp16.engine,54.7659,54.7659,54.7659,18.2595,0.0000,0.0000,0.0000,0.0000,0.0000,0.0000,class-agnostic
